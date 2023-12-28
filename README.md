@@ -3,7 +3,8 @@
 # [Usage] asyncRequest:
 
  ## 1. Implement OnRequestCallBack
-``` class _MyHomePageState extends State<MyHomePage> implements OnRequestCallBack
+```
+class _MyHomePageState extends State<MyHomePage> implements OnRequestCallBack
   @override
   dynamic onPreRequest(YeeRequestOption request);
   @override
@@ -12,7 +13,8 @@
   void onResponse(YeeResponse result) {}
 ```
 ## 2.How to crate a asyncRequest builder
-``` YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder(context: this)
+```
+YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder(context: this)
  .baseUrl("https://jsonplaceholder.typicode.com/posts")
  .method(HttpConfigs.GET)
  .build();
@@ -29,7 +31,8 @@
 # [Usage] syncRequest:
 
 ## 1.How to crate a syncRequest builder
-``` YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder()
+```
+YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder()
  .baseUrl("https://jsonplaceholder.typicode.com/posts")
  .method(HttpConfigs.GET)
  .build();
@@ -41,14 +44,16 @@
 # [Usage] Download:
 
  ## 1.Tips: While file's size more than 5MB, we recommend using downloadLargeFile to increase download speed , another side we use downloadSmallFile
-```1. YeeHttpBuilder builder = new YeeHttpBuilder(ignoreDefaultHttpConfig: true)
+```
+ YeeHttpBuilder builder = new YeeHttpBuilder(ignoreDefaultHttpConfig: true)
  .method(HttpConfigs.GET)
  .baseUrl(urlLarge)
  .log(true)
  .build();
 ```
  ## 2.Demo
- ```dynamic result = await builder.downloadLargeFile(
+ ```
+dynamic result = await builder.downloadLargeFile(
  "[your save path]", onReceiveProgress: (received, total) async{
 if (total != -1) {
  print("progress:" + (received / total * 100).toStringAsFixed(0) + "%");
@@ -58,7 +63,8 @@ if (total != -1) {
 # [Usage] CacheInterceptor
 
 ## 1.Tips: There's always some data we don't need it in real time so we can ask for it from http cache
- ```YeeHttpBuilder builder = new YeeHttpBuilder()
+ ```
+YeeHttpBuilder builder = new YeeHttpBuilder()
  .method(HttpConfigs.GET)
  .baseUrl(urlWeb)
  .addInterceptor(CacheInterceptor())
@@ -66,7 +72,8 @@ if (total != -1) {
  .build();
 ```
 ## 2.Demo
-```await builder.syncRequest(); //first request form Intent
+```
+ await builder.syncRequest(); //first request form Intent
  await builder.syncRequest(); //second request form our local cache
  builder.forceRefreshCache(true);//ignore local cache， ask for data from Intent
  await builder.syncRequest();//third request form Intent again
@@ -76,7 +83,8 @@ if (total != -1) {
 
 ### 2.【Not Recommending】Ignore verify by setting YeeHttpBuilder.verifyHttpsCertificate(false), default value{true}.
 
-``` YeeHttpBuilder builder = new YeeHttpBuilder()
+```
+YeeHttpBuilder builder = new YeeHttpBuilder()
  .method(HttpConfigs.GET)
  .baseUrl(urlJson)
  .log(true)
@@ -93,13 +101,16 @@ if (total != -1) {
 # [Usage] Track Request: You can set one more id(.id("xxx)) for every YeeHttpBuilder instance to mark every network request
 ## 1. if not we support default id for you {@link _createDefaultUniqueKey()}
 ## 2. Demo 
-```YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder()
+```
+YeeHttpBuilder _yeeHttpBuilder = new YeeHttpBuilder()
  .baseUrl("https://jsonplaceholder.typicode.com/posts")
  .method(HttpConfigs.GET)
  .id("your mark")
- .build();```
+ .build();
+```
 ## 3.you can track "your mark" in {@link OnRequestCallBack}method like:
- ```@override
+ ```
+@override
  void onResponse(YeeResponse response) {
  print("YeeHttpBuilderUtil_onResponse:");
  if (response.builderID() == "your mark") {
